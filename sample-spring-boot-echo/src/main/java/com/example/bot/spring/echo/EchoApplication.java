@@ -73,7 +73,9 @@ public class EchoApplication {
      */
     @EventMapping
     public Message handleImageMessageContent(MessageEvent<ImageMessageContent> event) {
-        log.info("event: " + event);
+        log.info("Image Message event: " + event);
+        log.info("Image URL: " + event);
+        log.info("Preview URL: " + event);
         return new ImageMessage(event.getMessage().getContentProvider().getOriginalContentUrl(),
                 event.getMessage().getContentProvider().getPreviewImageUrl());
     }
