@@ -16,8 +16,10 @@
 
 package com.example.bot.spring.echo;
 
+import com.linecorp.bot.model.event.message.ContentProvider;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
-import com.linecorp.bot.model.message.StickerMessage;
+import com.linecorp.bot.model.message.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -26,8 +28,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
@@ -40,17 +40,42 @@ public class EchoApplication {
         SpringApplication.run(EchoApplication.class, args);
     }
 
+    /**
+     * Text Message
+     *
+     * @param event
+     * @return Message
+     */
     @EventMapping
     public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         log.info("event: " + event);
         final String originalMessageText = event.getMessage().getText();
         return new TextMessage(originalMessageText);
     }
+
+    /**
+     * Sticker Message
+     *
+     * @param event
+     * @return Message
+     */
     @EventMapping
     public Message handleStickerMessageContent(MessageEvent<StickerMessageContent> event) {
         log.info("event: " + event);
-        final String originalMessageText = event.getMessage().getStickerId();
         return new StickerMessage(event.getMessage().getPackageId(), event.getMessage().getStickerId());
+    }
+
+    /**
+     * Image Message
+     *
+     * @param event
+     * @return Message
+     */
+    @EventMapping
+    public Message handleImageMessageContent(MessageEvent<ImageMessageContent> event) {
+        log.info("event: " + event);
+        return new ImageMessage(event.getMessage().getContentProvider().getOriginalContentUrl(),
+                event.getMessage().getContentProvider().getPreviewImageUrl());
     }
 
     @EventMapping
