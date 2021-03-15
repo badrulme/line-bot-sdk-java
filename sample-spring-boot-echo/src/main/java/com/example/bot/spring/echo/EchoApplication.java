@@ -16,6 +16,8 @@
 
 package com.example.bot.spring.echo;
 
+import com.linecorp.bot.model.event.message.StickerMessageContent;
+import com.linecorp.bot.model.message.StickerMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -43,6 +45,12 @@ public class EchoApplication {
         log.info("event: " + event);
         final String originalMessageText = event.getMessage().getText();
         return new TextMessage(originalMessageText);
+    }
+    @EventMapping
+    public Message handleStickerMessageContent(MessageEvent<StickerMessageContent> event) {
+        log.info("event: " + event);
+        final String originalMessageText = event.getMessage().getStickerId();
+        return new StickerMessage(event.getMessage().getPackageId(), event.getMessage().getStickerId());
     }
 
     @EventMapping
