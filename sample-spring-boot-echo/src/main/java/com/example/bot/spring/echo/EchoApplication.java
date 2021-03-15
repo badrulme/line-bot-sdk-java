@@ -31,6 +31,10 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 
+import javax.annotation.Resource;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 @SpringBootApplication
 @LineMessageHandler
 public class EchoApplication {
@@ -72,13 +76,14 @@ public class EchoApplication {
      * @return Message
      */
     @EventMapping
-    public Message handleImageMessageContent(MessageEvent<ImageMessageContent> event) {
+    public Message handleImageMessageContent(MessageEvent<ImageMessageContent> event) throws URISyntaxException {
         log.info("Image Message event: " + event);
         log.info("Image URL: " + event);
         log.info("Preview URL: " + event);
-        return new ImageMessage(event.getMessage().getContentProvider().getOriginalContentUrl(),
-                event.getMessage().getContentProvider().getPreviewImageUrl());
+        URI uri = new URI("https://i2.wp.com/chefsavvy.com/wp-content/uploads/Easy-Beef-Fried-Rice.jpg?w=665&ssl=1");
+        return new ImageMessage(uri,uri);
     }
+
 
     @EventMapping
     public void handleDefaultMessageEvent(Event event) {
