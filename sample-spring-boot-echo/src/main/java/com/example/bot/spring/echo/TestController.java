@@ -40,9 +40,9 @@ public class TestController {
 // Compare x-line-signature request header string and the signature
 
         if (request.getHeader("x-line-signature").equals(signature)) {
-            log.info("event object: " + o);
+            log.info("matches");
         } else {
-
+            log.info("does not matches");
         }
 
 
