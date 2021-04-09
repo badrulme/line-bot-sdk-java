@@ -26,12 +26,12 @@ public class TestController {
     }
 
     @PostMapping("test")
-    public void test(@RequestBody Object o) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
-        log.info("event object: " + o);
+    public void test(@RequestBody byte[] content) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        log.info("event object: " + content);
         log.info("request: " + request.getHeader("x-line-signature"));
 
         String channelSecret = "3c5542ac2dc6fa1cc6f131f984bc3622"; // Channel secret string
-        String httpRequestBody = o.toString(); // Request body string
+        String httpRequestBody = content.toString(); // Request body string
         SecretKeySpec key = new SecretKeySpec(channelSecret.getBytes(), "HmacSHA256");
         Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(key);
