@@ -36,9 +36,8 @@ public class TestController {
 
         log.info("signatureHeader: " + signatureHeader);
         log.info("payload: " + payload);
+        log.info("payload: " + payload.toString());
 
-
-        log.info("request: " + request.getHeader("X-Line-Signature"));
 
         String channelSecret = "3c5542ac2dc6fa1cc6f131f984bc3622"; // Channel secret string
         String httpRequestBody = payload.toString(); // Request body string
