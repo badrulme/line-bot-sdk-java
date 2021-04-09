@@ -1,5 +1,8 @@
 package com.example.bot.spring.echo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.linecorp.bot.model.event.CallbackRequest;
+import com.linecorp.bot.model.objectmapper.ModelObjectMapper;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -22,6 +26,8 @@ public class TestController {
     @Autowired
     private final HttpServletRequest request;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+    private final ObjectMapper objectMapper = ModelObjectMapper.createNewObjectMapper();
 
     public TestController(HttpServletRequest request) {
         this.request = request;
@@ -35,9 +41,9 @@ public class TestController {
 
 
         log.info("signatureHeader: " + signatureHeader);
-        log.info("payload: " + payload);
-        log.info("payload: " + payload.toString());
+        log.info("payload: " + new String(payload, StandardCharsets.UTF_8));
 
+        final CallbackRequest callbackRequest = objectMapper.readValue(payload, CallbackRequest.class);
 
         String channelSecret = "3c5542ac2dc6fa1cc6f131f984bc3622"; // Channel secret string
         String httpRequestBody = payload.toString(); // Request body string
