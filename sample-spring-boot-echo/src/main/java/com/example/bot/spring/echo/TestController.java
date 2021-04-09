@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,8 @@ public class TestController {
     }
 
     @PostMapping("test")
-    public void test(){
-        log.info("event: "+request);
+    public void test(@RequestBody Object o) {
+        log.info("event object: " + o);
+        log.info("request: " + request.getHeaderNames());
     }
 }
