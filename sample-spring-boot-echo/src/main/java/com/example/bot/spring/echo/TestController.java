@@ -51,6 +51,7 @@ public class TestController {
 
         String signature = Base64.encodeBase64String(mac.doFinal(source));
 
+        log.info("httpRequestBody: "+httpRequestBody);
         log.info("signature: "+signature);
         log.info("X-Line-Signature: "+request.getHeader("X-Line-Signature"));
 
